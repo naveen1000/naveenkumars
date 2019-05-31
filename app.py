@@ -71,7 +71,7 @@ def notify(msg):
 
 def main():   
     #mid=input('Enter mid..\n')
-    mid=22645
+    mid='22645'
     print(mid)
     config.ur='http://mapps.cricbuzz.com/cbzios/match/'+mid+'/leanback.json'
     prefetch()
