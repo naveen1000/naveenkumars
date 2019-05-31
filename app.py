@@ -38,8 +38,7 @@ def score():
             print(batters)
         except:
             print("An exception occurred fetching either batters or bowler")
-        try: 
-            print(config.tover)   
+        try:   
             if (over==(config.tover-1.0+0.5)):
                 global bow
                 bow=bowler
@@ -71,7 +70,8 @@ def notify(msg):
     print("notified")
 
 def main():   
-    mid=input('Enter mid..\n')
+    #mid=input('Enter mid..\n')
+    mid=22645
     print(mid)
     config.ur='http://mapps.cricbuzz.com/cbzios/match/'+mid+'/leanback.json'
     prefetch()
