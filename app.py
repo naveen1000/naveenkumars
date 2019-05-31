@@ -42,7 +42,7 @@ def score():
             if (over==(config.tover-1.0+0.5)):
                 global bow
                 bow=bowler
-            if over==int(config.tover):
+            if over==config.tover:
                 msg =detailed_score+" " + bow + "\n" + batters +"\n"+ data['prev_overs']
                 print(msg)
                 notify(msg)
@@ -50,11 +50,13 @@ def score():
                 fbpush(msg)
                 time.sleep(15)
             if wicket==config.twicket:
-                msg=series_name+"\n"+"wicket "+str(twicket)+" "+data['last_wkt_name']+" "+data['last_wkt_score']+" B: "+bowler+"\n"+detailed_score
+                msg="wicket "+str(config.twicket)+" "+data['last_wkt_name']+" "+data['last_wkt_score']+" B: "+bowler+"\n"+detailed_score
                 fbpush(msg)
                 notify(msg)
                 config.twicket=config.twicket+1
                 time.sleep(15)
+            if (int(over+1)!=config.tover):
+                prefetch()
         except:
             print("An exception occurred while trying to notify")
     except:
