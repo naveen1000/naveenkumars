@@ -38,15 +38,17 @@ def score():
             print(batters)
         except:
             print("An exception occurred fetching either batters or bowler")
-        try:    
+        try: 
+            print(config.tover)   
             if (over==(config.tover-1.0+0.5)):
+                global bow
                 bow=bowler
-            if over==config.tover:
-                msg = series_name+"\n"+ detailed_score+" " + bow + "\n" + batters +"\n"+ data['prev_overs']
+            if over==int(config.tover):
+                msg =detailed_score+" " + bow + "\n" + batters +"\n"+ data['prev_overs']
                 print(msg)
-                fbpush(msg)
                 notify(msg)
                 config.tover=config.tover+1
+                fbpush(msg)
                 time.sleep(15)
             if wicket==config.twicket:
                 msg=series_name+"\n"+"wicket "+str(twicket)+" "+data['last_wkt_name']+" "+data['last_wkt_score']+" B: "+bowler+"\n"+detailed_score
