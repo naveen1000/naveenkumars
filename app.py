@@ -57,6 +57,8 @@ def score():
                 time.sleep(15)
             if (int(over+1)!=config.tover):
                 prefetch()
+            if ((wicket+1)!=config.twicket):
+                prefetch()
         except:
             print("An exception occurred while trying to notify")
     except:
@@ -73,7 +75,7 @@ def notify(msg):
 
 def main():   
     #mid=input('Enter mid..\n')
-    mid='22645'
+    mid='20238'
     print(mid)
     config.ur='http://mapps.cricbuzz.com/cbzios/match/'+mid+'/leanback.json'
     prefetch()
