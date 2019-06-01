@@ -2,10 +2,10 @@ from proxy_requests import ProxyRequests
 import json
 import requests
 import time
-from prefetch import prefetch
+from prefetch import prefetch,listofMatches
 import config
 
-from fbPush import fbpush
+from fbPush import fbpush,updateRedIds
 from fbRdbUpdate import fputOnRdb
 
 
@@ -20,12 +20,12 @@ def score():
         score=int(data["comm_lines"][0]["score"])
         wicket=int(data["comm_lines"][0]["wkts"])
         over=float(data['bat_team']['innings'][0]['overs'])
-        detailed_score=data["comm_lines"][0]["score"]+"/"+data["comm_lines"][0]["wkts"]+" "+data['bat_team']['innings'][0]['overs']
+        detailed_score=config.bat_team_name+" "+data["comm_lines"][0]["score"]+"/"+data["comm_lines"][0]["wkts"]+" "+data['bat_team']['innings'][0]['overs']
         print(detailed_score,end=" ")
-        fputOnRdb(detailed_score)
+        
         try:
             bowler=data['bowler'][0]['name']
-            print(bowler)
+            print("B:"+bowler)
             batname0=data['batsman'][0]['name']
             batname1=data['batsman'][1]['name']
             bat0score=data['batsman'][0]['r']
@@ -33,9 +33,9 @@ def score():
             bat0ball=data['batsman'][0]['b']
             bat1ball=data['batsman'][1]['b']
             bowler=data['bowler'][0]['name']
-            batters=batname0+"("+bat0score+"-"+bat0ball+")"+batname1+"("+bat1score+"-"+bat1ball+")"
-            detailed_score=data["comm_lines"][0]["score"]+"/"+data["comm_lines"][0]["wkts"]+" "+data['bat_team']['innings'][0]['overs']
+            batters=batname0+"*("+bat0score+"-"+bat0ball+") "+batname1+"("+bat1score+"-"+bat1ball+")"
             print(batters)
+            fputOnRdb(detailed_score + "     B: "+bowler+"\n"+batters+"\nRecent:\n"+data['prev_overs'])
         except:
             print("An exception occurred fetching either batters or bowler")
         try:   
@@ -43,12 +43,15 @@ def score():
                 global bow
                 bow=bowler
             if over==config.tover:
-                msg =detailed_score+" " + bow + "\n" + batters +"\n"+ data['prev_overs']
+                prev_overs=data['prev_overs']
+                prev_over=prev_overs.split('|')
+                msg =detailed_score+" B:" + bow + "\n" + batters +"\n"+ prev_over[-1]
                 print(msg)
                 notify(msg)
                 config.tover=config.tover+1
                 fbpush(msg)
-                time.sleep(15)
+                updateRedIds()
+                time.sleep(10)
             if wicket==config.twicket:
                 msg="wicket "+str(config.twicket)+" "+data['last_wkt_name']+" "+data['last_wkt_score']+" B: "+bowler+"\n"+detailed_score
                 fbpush(msg)
@@ -56,8 +59,10 @@ def score():
                 config.twicket=config.twicket+1
                 time.sleep(15)
             if (int(over+1)!=config.tover):
+                updateRedIds()
                 prefetch()
             if ((wicket+1)!=config.twicket):
+                updateRedIds()
                 prefetch()
         except:
             print("An exception occurred while trying to notify")
@@ -75,10 +80,11 @@ def notify(msg):
 
 def main():   
     #mid=input('Enter mid..\n')
-    mid='20238'
+    mid=listofMatches()
     print(mid)
     config.ur='http://mapps.cricbuzz.com/cbzios/match/'+mid+'/leanback.json'
     prefetch()
+    updateRedIds()
     while(True):
         score()
         time.sleep(5)
