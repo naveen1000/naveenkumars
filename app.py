@@ -58,10 +58,10 @@ def score():
                 config.twicket=config.twicket+1
                 time.sleep(15)
             if (int(over+1)!=config.tover):
-                updateRedIds()
+                updateRegIds()
                 prefetch()
             if ((wicket+1)!=config.twicket):
-                updateRedIds()
+                updateRegIds()
                 prefetch()
         except:
             print("An exception occurred while trying to notify")
