@@ -50,7 +50,7 @@ def score():
                 notify(msg)
                 config.tover=config.tover+1
                 fbpush(msg)
-                updateRedIds()
+                updateRegIds()
                 time.sleep(10)
             if wicket==config.twicket:
                 msg="wicket "+str(config.twicket)+" "+data['last_wkt_name']+" "+data['last_wkt_score']+" B: "+bowler+"\n"+detailed_score

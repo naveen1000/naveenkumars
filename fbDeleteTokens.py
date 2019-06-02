@@ -27,6 +27,7 @@ def fbDeletetToken(token):
     except:
         print("An exception occurred deleting Tokens")
 def main():
+    updateRedIds()
     global registration_ids
     print('Testing')
     for reg_id in registration_ids:
@@ -39,3 +40,4 @@ def main():
                 fbDeletetToken(reg_id)   
 
 
+main()
