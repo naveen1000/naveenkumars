@@ -5,7 +5,7 @@ import time
 from prefetch import prefetch,listofMatches
 import config
 
-from fbPush import fbpush,updateRedIds
+from fbPush import fbpush,updateRegIds
 from fbRdbUpdate import fputOnRdb
 
 
@@ -84,7 +84,7 @@ def main():
     print(mid)
     config.ur='http://mapps.cricbuzz.com/cbzios/match/'+mid+'/leanback.json'
     prefetch()
-    updateRedIds()
+    updateRegIds()
     while(True):
         score()
         time.sleep(5)

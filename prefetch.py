@@ -5,21 +5,25 @@ import json
 #prefetch wicket and over inorder to notify.
 import config
 def listofMatches():
-    url='http://mapps.cricbuzz.com/cbzios/match/livematches'
-    r = ProxyRequests(url)
-    r.get()
-    a=str(r)
-    data=json.loads(a)
-    matches=[]
-    match_id=[]
-    for i in data['matches']:
-        matches.append(i)
-    for i in matches:
-        t= time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(i['header']['start_time'])))
-        match_id.append(i['match_id'])
-        print(i['match_id']+' '+ t +' '+i['series_name'])
-    return match_id[0]    
-
+    try:
+        url='http://mapps.cricbuzz.com/cbzios/match/livematches'
+        r = ProxyRequests(url)
+        r.get()
+        a=str(r)
+        data=json.loads(a)
+        matches=[]
+        match_id=[]
+        for i in data['matches']:
+            matches.append(i)
+        for i in matches:
+            t= time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(i['header']['start_time'])))
+            match_id.append(i['match_id'])
+            print(i['match_id']+' '+ t +' '+i['series_name'])
+        return match_id[0]    
+    except:
+        print("An exception occurred auto updating mid")
+        time.sleep(2)
+        listofMatches()
 
 def prefetch():
     try:

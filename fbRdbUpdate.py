@@ -1,5 +1,6 @@
+#https://www.c-sharpcorner.com/article/firebase-crud-operations-using-python/
 from firebase import firebase 
-firebase = firebase.FirebaseApplication('https://naveen-kumar-simma.firebaseio.com/',None)    
+firebase = firebase.FirebaseApplication('https://crick-notify.firebaseio.com/',None)    
  
 def fputOnRdb(detailed_score):
     try:
