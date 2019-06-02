@@ -4,7 +4,6 @@ import requests
 import time
 from prefetch import prefetch,listofMatches
 import config
-
 from fbPush import fbpush,updateRegIds
 from fbRdbUpdate import fputOnRdb
 
